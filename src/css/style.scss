@@ -3,10 +3,16 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+body {
+  position: relative;
+}
+
 .container {
+  z-index: 1;
   width: auto;
   height: fit-content;
-  max-width: 1000px;
+  min-width: 600px;
+  max-width: 900px;
   margin: 0 auto;
   margin-top: 100px;
   padding: 15px;
@@ -14,7 +20,7 @@
   border-radius: 10px;
   background-color: rgb(223, 215, 215);
 
-  .addButton {
+  .add-button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,6 +31,11 @@
     margin-left: auto;
     border: 3px solid black;
     border-radius: 10px;
+
+    &:hover {
+      transform: scale(1.1);
+      cursor: pointer;
+    }
   }
 
 
@@ -33,7 +44,10 @@
 
     .ticket {
       padding: 15px;
-      display: flex;
+      display: grid;
+      min-width: 500px;
+      grid-template-columns: 50px minmax(200px, 550px) minmax(150px, 250px) 100px;
+      row-gap: 20px;
       align-items: center;
       border: 2px solid grey;
       font-size: 20px;
@@ -44,9 +58,9 @@
 
       &__flag {
         display: flex;
+        justify-self: center;
         justify-content: center;
         align-items: center;
-        margin-bottom: 3px;
         width: 30px;
         height: 30px;
         border: 1px solid black;
@@ -64,20 +78,85 @@
       }
 
       &__fullname {
-        position: absolute;
-        left: 65%;
+        grid-column-start: 2;
+        grid-column-end: 3;
+        margin-left: 15px;
+        height: fit-content;
       }
 
       &__timestamp {
         margin-left: auto;
-        margin-right: 75px;
       }
 
       &__buttons {
+        margin-left: auto;
         width: 75px;
         display: flex;
         justify-content: space-between;
       }
+    }
+  }
+}
+
+.menu {
+  position: absolute;
+  top: 25px;
+  left: 0;
+  right: 0;
+  width: 500px;
+  height: fit-content;
+  z-index: 999999;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+  background-color: rgb(243, 236, 236);
+  border: 3px solid black;
+  border-radius: 25px;
+  font-size: 20px;
+
+  &__title {
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  &__text {
+    margin-top: 15px;
+    width: 400px;
+  }
+
+  & .form {
+    margin-top: 10px;
+
+    & textarea {
+      margin-top: 10px;
+      width: 100%;
+      resize: none;
+    }
+  
+    &__fulltext {
+      height: 75px;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+    margin-top: 15px;
+    margin-left: auto;
+    padding: 5px;
+  }
+
+  &__button {
+    height: 50px;
+    padding: 5px 25px;
+    border: 1px solid black;
+    border-radius: 10px;
+
+    &:hover {
+      transform: scale(1.1);
+      font-weight: bold;
+      cursor: pointer;
     }
   }
 }
