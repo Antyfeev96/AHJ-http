@@ -14,7 +14,7 @@ const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
+// const CopyPlugin = require('copy-webpack-plugin');
 
 /*
  * We've enabled HtmlWebpackPlugin for you! This generates a html
@@ -26,11 +26,11 @@ const CopyPlugin = require('copy-webpack-plugin');
  */
 
 module.exports = {
-  entry: './src/index.js',
+  // entry: './src/index.js',
   mode: 'development',
-  output: {
-    filename: 'bundle.js',
-  },
+  // output: {
+  //   filename: 'bundle.js',
+  // },
   plugins: [
     new webpack.ProgressPlugin(),
     new MiniCssExtractPlugin({ filename: 'main.[contenthash].css' }),
@@ -38,11 +38,11 @@ module.exports = {
       template: 'index.html',
     }),
     new ESLintPlugin(),
-    new CopyPlugin({
-      patterns: [
-        { from: 'src/images', to: 'src/images' },
-      ],
-    }),
+    // new CopyPlugin({
+    //   patterns: [
+    //     { from: 'src/images', to: 'src/images' },
+    //   ],
+    // }),
   ],
 
   module: {
