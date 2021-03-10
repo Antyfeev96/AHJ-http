@@ -1,0 +1,125 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif; }
+
+body {
+  position: relative; }
+
+.container {
+  z-index: 1;
+  width: auto;
+  height: fit-content;
+  min-width: 600px;
+  max-width: 900px;
+  margin: 0 auto;
+  margin-top: 100px;
+  padding: 15px;
+  border: 3px solid black;
+  border-radius: 10px;
+  background-color: #dfd7d7; }
+  .container .adding-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    width: 200px;
+    height: 50px;
+    margin-top: 15px;
+    margin-left: auto;
+    border: 3px solid black;
+    border-radius: 10px; }
+    .container .adding-button:hover {
+      transform: scale(1.1);
+      cursor: pointer; }
+  .container .tickets {
+    margin-top: 20px; }
+    .container .tickets .ticket {
+      padding: 15px;
+      display: grid;
+      min-width: 500px;
+      grid-template-columns: 50px minmax(200px, 550px) minmax(150px, 250px) 100px;
+      row-gap: 20px;
+      align-items: center;
+      border: 2px solid grey;
+      font-size: 20px; }
+      .container .tickets .ticket:nth-of-type(n + 1) {
+        margin-top: 10px; }
+      .container .tickets .ticket__flag {
+        display: flex;
+        justify-self: center;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        height: 30px;
+        border: 1px solid black;
+        border-radius: 50%; }
+        .container .tickets .ticket__flag_active {
+          border-width: 3px; }
+        .container .tickets .ticket__flag:hover {
+          transform: scale(1.2);
+          font-weight: bold;
+          cursor: pointer; }
+      .container .tickets .ticket__shortname {
+        margin-left: 15px; }
+      .container .tickets .ticket__fullname {
+        display: none;
+        grid-column-start: 2;
+        grid-column-end: 3;
+        margin-left: 15px;
+        height: fit-content; }
+      .container .tickets .ticket__fullname_active {
+        display: block; }
+      .container .tickets .ticket__timestamp {
+        margin-left: auto; }
+      .container .tickets .ticket__buttons {
+        margin-left: auto;
+        width: 75px;
+        display: flex;
+        justify-content: space-between; }
+
+.menu {
+  position: absolute;
+  top: 25px;
+  left: 0;
+  right: 0;
+  width: 500px;
+  height: fit-content;
+  z-index: 999999;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+  background-color: #f3ecec;
+  border: 3px solid black;
+  border-radius: 25px;
+  font-size: 20px; }
+  .menu__title {
+    margin-top: 10px;
+    text-align: center; }
+  .menu__text {
+    margin-top: 15px;
+    width: 400px; }
+  .menu .form {
+    margin-top: 10px; }
+    .menu .form textarea {
+      margin-top: 10px;
+      width: 100%;
+      resize: none; }
+    .menu .form__fulltext {
+      height: 75px; }
+  .menu__buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+    margin-top: 15px;
+    margin-left: auto;
+    padding: 5px; }
+  .menu__button {
+    height: 50px;
+    padding: 5px 25px;
+    border: 1px solid black;
+    border-radius: 10px; }
+    .menu__button:hover {
+      transform: scale(1.1);
+      font-weight: bold;
+      cursor: pointer; }
+
