@@ -38,6 +38,11 @@ module.exports = {
       template: 'index.html',
     }),
     new ESLintPlugin(),
+    // new CopyPlugin({
+    //   patterns: [
+    //     { from: 'src/images', to: 'src/images' },
+    //   ],
+    // }),
   ],
 
   module: {
