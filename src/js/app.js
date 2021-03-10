@@ -1,5 +1,5 @@
-import AppController from '../js/appController';
-import Layout from '../js/layout';
+import AppController from './appController';
+import Layout from './layout';
 
 const app = new AppController(new Layout());
 app.init();
