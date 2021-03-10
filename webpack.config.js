@@ -28,9 +28,9 @@ const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
   entry: './src/index.js',
   mode: 'development',
-  // output: {
-  //   filename: 'bundle.js',
-  // },
+  output: {
+    filename: 'bundle.js',
+  },
   plugins: [
     new webpack.ProgressPlugin(),
     new MiniCssExtractPlugin({ filename: 'main.[contenthash].css' }),
@@ -40,7 +40,7 @@ module.exports = {
     new ESLintPlugin(),
     new CopyPlugin({
       patterns: [
-        { from: 'src', to: 'src' },
+        { from: 'src/images', to: 'src/images' },
       ],
     }),
   ],
