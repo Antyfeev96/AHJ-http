@@ -1,2 +1,3 @@
-import './js/App';
+/* eslint-disable import/extensions */
+import './js/App.js';
 import './css/style.scss';
