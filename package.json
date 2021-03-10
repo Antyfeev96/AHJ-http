@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Antyfeev96/AHJ-http.git"
+    "url": "git+https://github.com/Antyfeev96/AHJ-http-frontend.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Antyfeev96/AHJ-http/issues"
+    "url": "https://github.com/Antyfeev96/AHJ-http-frontend/issues"
   },
-  "homepage": "https://github.com/Antyfeev96/AHJ-http#readme",
+  "homepage": "https://github.com/Antyfeev96/AHJ-http-frontend#readme",
   "devDependencies": {
     "@babel/cli": "^7.13.0",
     "@babel/core": "^7.13.1",
