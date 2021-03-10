@@ -28,9 +28,9 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 module.exports = {
   entry: './src/index.js',
   mode: 'development',
-  // output: {
-  //   filename: 'bundle.js',
-  // },
+  output: {
+    filename: 'bundle.js',
+  },
   plugins: [
     new webpack.ProgressPlugin(),
     new MiniCssExtractPlugin({ filename: 'main.[contenthash].css' }),
@@ -38,11 +38,6 @@ module.exports = {
       template: 'index.html',
     }),
     new ESLintPlugin(),
-    // new CopyPlugin({
-    //   patterns: [
-    //     { from: 'src/images', to: 'src/images' },
-    //   ],
-    // }),
   ],
 
   module: {
