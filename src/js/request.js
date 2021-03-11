@@ -1,18 +1,3 @@
-// const func = (formData) => {
-//   const url = 'http://localhost:7070';
-//   const xhr = new XMLHttpRequest();
-//   xhr.open('POST', url, true);
-//   xhr.addEventListener('readystatechange', () => {
-//     if (xhr.readyState === 4 && xhr.status === 200) {
-//       console.log(formData);
-//     }
-//   });
-//   xhr.setRequestHeader('Content-Type', 'form/multipart');
-//   xhr.send(formData);
-// };
-
-// export default func;
-
 const postRequest = async (e, form) => {
   e.preventDefault();
 
