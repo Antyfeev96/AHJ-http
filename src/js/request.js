@@ -1,5 +1,25 @@
-const postRequest = async (e, form) => {
+/* eslint-disable no-unreachable */
+/* eslint-disable no-undef */
+const sendRequest = async (type, e, form) => {
   e.preventDefault();
+
+  if (type === 'GET') {
+    const formData = new FormData();
+    formData.append('method', 'allTickets');
+
+    const response = await fetch(`https://ahj-http-mishka.herokuapp.com/?method=${formData.get('method')}`, {
+      method: type,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      // body: formData,
+    });
+
+    const result = await response.json();
+
+    console.log(result);
+  }
+  return;
 
   for (const [key, value] of new FormData(form).entries()) {
     console.log(`${key}: ${value}`);
@@ -11,7 +31,7 @@ const postRequest = async (e, form) => {
     .join('&');
 
   const response = await fetch(`https://ahj-http-mishka.herokuapp.com/?${queryString}`, {
-    method: 'POST',
+    method: type,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
@@ -23,4 +43,4 @@ const postRequest = async (e, form) => {
   console.log(result);
 };
 
-export default postRequest;
+export default sendRequest;

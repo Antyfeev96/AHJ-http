@@ -1,4 +1,4 @@
-import postRequest from './request';
+import sendRequest from './request';
 
 /* eslint-disable class-methods-use-this */
 export default class AppController {
@@ -82,14 +82,8 @@ export default class AppController {
 
   submitForm(e) {
     e.preventDefault();
-    const form = e.target.closest('.menu').querySelector('.form');
-    // console.log(form.elements);
-    // console.log(form);
-    // const shortText = form.querySelector('.form__shorttext');
-    // const fullText = form.querySelector('.form__fulltext');
-    // formData.append(shortText, shortText.textContent);
-    // formData.append(fullText, fullText.value);
-    postRequest(e, form);
+    // const form = e.target.closest('.menu').querySelector('.form');
+    sendRequest('GET', e);
   }
 
   closeMenu() {
