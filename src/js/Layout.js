@@ -33,9 +33,9 @@ export default class Layout {
         <div class="menu__title"></div>
         <form class="form">
             <div class="form__text">Краткое описание</div>
-            <textarea class="form__shorttext"></textarea>
+            <textarea name='shorttext' class="form__shorttext"></textarea>
             <div class="form__text">Подробное описание</div>
-            <textarea class="form__fulltext"></textarea>
+            <textarea name='fulltext' class="form__fulltext"></textarea>
         </form>
         <div class="menu__buttons">
             <button class="menu__button" data-action="cancel">Отмена</button>

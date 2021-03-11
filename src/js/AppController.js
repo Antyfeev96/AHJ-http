@@ -1,3 +1,5 @@
+import postRequest from './request';
+
 /* eslint-disable class-methods-use-this */
 export default class AppController {
   constructor(layout) {
@@ -62,6 +64,7 @@ export default class AppController {
     this.menu = document.querySelector('.menu');
     this.menu.querySelector('.menu__title').textContent = 'Добавить тикет';
     this.menu.querySelector('[data-action=cancel]').addEventListener('click', this.closeMenu);
+    this.menu.querySelector('[data-action=ok]').addEventListener('click', this.submitForm);
   }
 
   showEditMenu() {
@@ -75,6 +78,18 @@ export default class AppController {
     document.body.insertAdjacentHTML('afterbegin', this.layout.deleteMenu);
     this.menu = document.querySelector('.menu');
     this.menu.querySelector('[data-action=cancel]').addEventListener('click', this.closeMenu);
+  }
+
+  submitForm(e) {
+    e.preventDefault();
+    const form = e.target.closest('.menu').querySelector('.form');
+    // console.log(form.elements);
+    // console.log(form);
+    // const shortText = form.querySelector('.form__shorttext');
+    // const fullText = form.querySelector('.form__fulltext');
+    // formData.append(shortText, shortText.textContent);
+    // formData.append(fullText, fullText.value);
+    postRequest(e, form);
   }
 
   closeMenu() {
