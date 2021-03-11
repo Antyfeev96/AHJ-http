@@ -10,7 +10,7 @@ const postRequest = async (e, form) => {
     .map(({ name, value }) => `${name}=${encodeURIComponent(value)}`)
     .join('&');
 
-  const response = await fetch(`http://localhost:7070/?${queryString}`, {
+  const response = await fetch(`https://ahj-http-mishka.herokuapp.com/?${queryString}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
