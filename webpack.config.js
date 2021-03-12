@@ -2,48 +2,30 @@
 const path = require('path');
 const webpack = require('webpack');
 
-/*
- * We've enabled MiniCssExtractPlugin for you. This allows your app to
- * use css modules that will be moved into a separate CSS file instead of inside
- * one of your module entries!
- *
- * https://github.com/webpack-contrib/mini-css-extract-plugin
- *
- */
-
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
-
-/*
- * We've enabled HtmlWebpackPlugin for you! This generates a html
- * page for you when you compile webpack, which will make you start
- * developing and prototyping faster.
- *
- * https://github.com/jantimon/html-webpack-plugin
- *
- */
+// const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  entry: path.resolve(__dirname, 'src/index.js'),
+  entry: './src/index.js',
   mode: 'development',
   output: {
-    path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
   },
   plugins: [
+    new webpack.HotModuleReplacementPlugin(),
     new webpack.ProgressPlugin(),
     new MiniCssExtractPlugin({ filename: 'main.[contenthash].css' }),
     new HtmlWebpackPlugin({
       template: 'index.html',
     }),
     new ESLintPlugin(),
-    new CopyPlugin({
-      patterns: [
-        { from: 'src/js', to: 'src/js' },
-      ],
-    }),
+    // new CopyPlugin({
+    //   patterns: [
+    //     { from: 'src/js', to: 'src/js' },
+    //   ],
+    // }),
   ],
 
   module: {
@@ -94,5 +76,9 @@ module.exports = {
     port: 8080,
     open: true,
     host: 'localhost',
+    historyApiFallback: true,
+    contentBase: path.resolve(__dirname, './dist'),
+    compress: true,
+    hot: true,
   },
 };

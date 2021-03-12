@@ -1,4 +1,7 @@
-import sendRequest from './request';
+/* eslint-disable no-debugger */
+/* eslint-disable no-unused-vars */
+import getRequest from './getRequest';
+import renderResponse from './renderResponse';
 
 /* eslint-disable class-methods-use-this */
 export default class AppController {
@@ -6,24 +9,27 @@ export default class AppController {
     this.layout = layout;
   }
 
-  // parserHTML(string) {
-  //   return new DOMParser().parseFromString(string, 'text/html');✓
-  // }
-
   init() {
     document.body.insertAdjacentHTML('afterbegin', this.layout.container);
     document.querySelector('.container').innerHTML = this.layout.addButton + this.layout.tickets;
-    document.querySelector('.tickets').innerHTML = this.layout.ticket;
-
     this.container = document.querySelector('.container');
+    this.tickets = this.container.querySelector('.tickets');
     this.addButton = this.container.querySelector('.adding-button');
     this.addButton.addEventListener('click', () => this.addListener());
-    this.tickets = this.container.querySelector('.tickets');
-    this.ticket = this.tickets.querySelector('.ticket');
-    this.ticket.addEventListener('click', (e) => this.selectListener(e));
-    this.ticket.addEventListener('click', (e) => this.editListener(e));
-    this.ticket.addEventListener('click', (e) => this.deleteListener(e));
-    this.ticketFullname = this.ticket.querySelector('.ticket__fullname');
+    this.renderTickets();
+  }
+
+  renderTickets() {
+    document.addEventListener('DOMContentLoaded', async (e) => {
+      this.dataTickets = await renderResponse(e);
+      for (const ticket of this.dataTickets) {
+        this.tickets.innerHTML
+        += this.layout.renderTicket(ticket.id, ticket.status, ticket.name, ticket.created);
+      }
+      document.querySelectorAll('.ticket').forEach((ticket) => {
+        ticket.addEventListener('click', (event) => this.selectListener(event));
+      });
+    });
   }
 
   addListener() {
@@ -83,7 +89,7 @@ export default class AppController {
   submitForm(e) {
     e.preventDefault();
     // const form = e.target.closest('.menu').querySelector('.form');
-    sendRequest('GET', e);
+    getRequest('GET', e);
   }
 
   closeMenu() {
