@@ -1,6 +1,7 @@
 /* eslint-disable no-debugger */
 /* eslint-disable no-unused-vars */
 import getRequest from './getRequest';
+import postRequest from './postRequest';
 import renderResponse from './renderResponse';
 
 /* eslint-disable class-methods-use-this */
@@ -21,13 +22,15 @@ export default class AppController {
 
   renderTickets() {
     document.addEventListener('DOMContentLoaded', async (e) => {
-      this.dataTickets = await renderResponse(e);
+      this.dataTickets = await renderResponse(getRequest, 'GET', e);
       for (const ticket of this.dataTickets) {
         this.tickets.innerHTML
         += this.layout.renderTicket(ticket.id, ticket.status, ticket.name, ticket.created);
       }
       document.querySelectorAll('.ticket').forEach((ticket) => {
         ticket.addEventListener('click', (event) => this.selectListener(event));
+        ticket.addEventListener('click', (event) => this.editListener(event));
+        ticket.addEventListener('click', (event) => this.deleteListener(event));
       });
     });
   }
@@ -36,7 +39,6 @@ export default class AppController {
     if (document.querySelector('.menu') !== null) {
       return;
     }
-
     this.showAddMenu();
   }
 
@@ -70,7 +72,7 @@ export default class AppController {
     this.menu = document.querySelector('.menu');
     this.menu.querySelector('.menu__title').textContent = 'Добавить тикет';
     this.menu.querySelector('[data-action=cancel]').addEventListener('click', this.closeMenu);
-    this.menu.querySelector('[data-action=ok]').addEventListener('click', this.submitForm);
+    this.menu.querySelector('[data-action=ok]').addEventListener('click', (e) => this.submitForm(e));
   }
 
   showEditMenu() {
@@ -86,10 +88,11 @@ export default class AppController {
     this.menu.querySelector('[data-action=cancel]').addEventListener('click', this.closeMenu);
   }
 
-  submitForm(e) {
+  async submitForm(e) {
     e.preventDefault();
-    // const form = e.target.closest('.menu').querySelector('.form');
-    getRequest('GET', e);
+    const form = this.menu.querySelector('.form');
+    const data = await renderResponse(postRequest, 'POST', e, form);
+    console.log(data);
   }
 
   closeMenu() {

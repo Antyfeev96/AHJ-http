@@ -1,28 +1,34 @@
+/* eslint-disable consistent-return */
 const postRequest = async (type, e, form) => {
   e.preventDefault();
 
   if (type !== 'POST') return;
-
-  for (const [key, value] of new FormData(form).entries()) {
-    console.log(`${key}: ${value}`);
-  }
 
   const queryString = Array.from(form.elements)
     .filter(({ name }) => name)
     .map(({ name, value }) => `${name}=${encodeURIComponent(value)}`)
     .join('&');
 
-  const response = await fetch(`https://ahj-http-mishka.herokuapp.com/?${queryString}`, {
-    method: type,
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: new FormData(form),
-  });
+  try {
+    const formData = new FormData();
+    formData.set('method', 'createTicket');
 
-  const result = await response.text();
+    const response = await fetch(
+      `http://localhost:7070/?method=${formData.get('method')}&${queryString}`,
+      {
+        method: type,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: queryString,
+      },
+    );
 
-  console.log(result);
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export default postRequest;

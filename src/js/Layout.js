@@ -19,7 +19,7 @@ export default class Layout {
     this.menu = `
     <div class="menu">
         <div class="menu__title"></div>
-        <form class="form">
+        <form name='form' class="form">
             <div class="form__text">Краткое описание</div>
             <textarea name='shorttext' class="form__shorttext"></textarea>
             <div class="form__text">Подробное описание</div>

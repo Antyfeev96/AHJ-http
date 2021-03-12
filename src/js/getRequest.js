@@ -13,7 +13,7 @@ async function getRequest(type, e) {
     formData.append('method', 'allTickets');
 
     const response = await fetch(
-      `https://ahj-http-mishka.herokuapp.com/?method=${formData.get('method')}`,
+      `http://localhost:7070/?method=${formData.get('method')}`,
       {
         method: type,
         headers: {
