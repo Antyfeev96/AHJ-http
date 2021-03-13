@@ -1,4 +1,4 @@
-async function renderResponse(func, type, e, data) {
+const renderResponse = async (func, type, e, data) => {
   let result;
   switch (type) {
     case 'GET':
@@ -10,6 +10,6 @@ async function renderResponse(func, type, e, data) {
     default:
       return result;
   }
-}
+};
 
 export default renderResponse;

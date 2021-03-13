@@ -3,7 +3,7 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-unreachable */
 /* eslint-disable no-undef */
-async function getRequest(type, e) {
+const getRequest = async (type, e) => {
   e.preventDefault();
 
   if (type !== 'GET') return;
@@ -27,6 +27,6 @@ async function getRequest(type, e) {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export default getRequest;
