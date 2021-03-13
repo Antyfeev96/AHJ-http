@@ -126,15 +126,13 @@ export default class AppController {
     const data = await renderResponse(deleteRequest, 'GET', e, id);
     document.getElementById(`ticket_${data.id}`).remove();
     this.closeMenu();
-    document.querySelectorAll('.ticket').forEach((ticket) => {
-      ticket.addEventListener('click', (event) => this.selectListener(event));
-      ticket.addEventListener('click', (event) => this.editListener(event));
-      ticket.addEventListener('click', (event) => this.deleteListener(event));
-      ticket.addEventListener('click', (event) => this.showListener(event));
-    });
   }
 
   async showFullTicket(e, id) {
+    if (e.target.closest('.ticket').querySelector('.ticket__fullname') !== null) {
+      e.target.closest('.ticket').querySelector('.ticket__fullname').remove();
+      return;
+    }
     if (document.querySelector('.ticket__fullname') !== null) {
       document.querySelector('.ticket__fullname').remove();
     }
