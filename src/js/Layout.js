@@ -59,4 +59,11 @@ export default class Layout {
     </div>
     `);
   }
+
+  renderFullname(fullname) {
+    this.fullname = fullname;
+    return (`
+    <div class="ticket__fullname ticket__fullname_active">${this.fullname}</div>
+    `);
+  }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable quote-props */
 /* eslint-disable consistent-return */
 const postRequest = async (type, e, form) => {
   e.preventDefault();

@@ -1,8 +1,11 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable no-debugger */
 /* eslint-disable no-unused-vars */
-import getRequest from './getRequest';
-import postRequest from './postRequest';
-import renderResponse from './renderResponse';
+import deleteRequest from './requests/deleteRequest';
+import getRequest from './requests/getTicketsRequest';
+import postRequest from './requests/postRequest';
+import getFullRequest from './requests/getFullRequest';
+import renderResponse from './requests/renderResponse';
 
 /* eslint-disable class-methods-use-this */
 export default class AppController {
@@ -31,6 +34,7 @@ export default class AppController {
         ticket.addEventListener('click', (event) => this.selectListener(event));
         ticket.addEventListener('click', (event) => this.editListener(event));
         ticket.addEventListener('click', (event) => this.deleteListener(event));
+        ticket.addEventListener('click', (event) => this.showListener(event));
       });
     });
   }
@@ -40,6 +44,14 @@ export default class AppController {
       return;
     }
     this.showAddMenu();
+  }
+
+  showListener(e) {
+    if (!e.target.classList.contains('ticket__shortname')) return;
+    let { id } = e.target.closest('.ticket');
+    id = id.match(/\d/)[0];
+
+    this.showFullTicket(e, id);
   }
 
   selectListener(e) {
@@ -64,7 +76,10 @@ export default class AppController {
       return;
     }
 
-    this.showDeleteMenu();
+    let { id } = e.target.closest('.ticket');
+    id = id.match(/\d/)[0];
+
+    this.showDeleteMenu(e, id);
   }
 
   showAddMenu() {
@@ -82,20 +97,41 @@ export default class AppController {
     this.menu.querySelector('[data-action=cancel]').addEventListener('click', this.closeMenu);
   }
 
-  showDeleteMenu() {
+  showDeleteMenu(e, id) {
     document.body.insertAdjacentHTML('afterbegin', this.layout.deleteMenu);
     this.menu = document.querySelector('.menu');
     this.menu.querySelector('[data-action=cancel]').addEventListener('click', this.closeMenu);
+    this.menu.querySelector('[data-action=ok]').addEventListener('click', () => this.deleteTicket(e, id));
   }
 
   async submitForm(e) {
     e.preventDefault();
     const form = this.menu.querySelector('.form');
     const data = await renderResponse(postRequest, 'POST', e, form);
-    console.log(data);
+    const {
+      id, name, status, created,
+    } = data;
+    this.tickets.innerHTML
+      += this.layout.renderTicket(id, status, name, created);
+  }
+
+  async deleteTicket(e, id) {
+    const data = await renderResponse(deleteRequest, 'GET', e, id);
+    document.getElementById(`ticket_${data.id}`).remove();
+    this.closeMenu();
+  }
+
+  async showFullTicket(e, id) {
+    if (document.querySelector('.ticket__fullname') !== null) {
+      document.querySelector('.ticket__fullname').remove();
+    }
+    const data = await renderResponse(getFullRequest, 'GET', e, id);
+    const { description } = data;
+    document.getElementById(`ticket_${data.id}`)
+      .insertAdjacentHTML('beforeend', this.layout.renderFullname(description));
   }
 
   closeMenu() {
-    this.closest('.menu').remove();
+    document.querySelector('.menu').remove();
   }
 }
