@@ -73,12 +73,8 @@ module.exports = {
   },
 
   devServer: {
-    port: 8080,
     open: true,
-    host: 'localhost',
-    historyApiFallback: true,
-    contentBase: path.resolve(__dirname, './dist'),
-    compress: true,
-    hot: true,
+    contentBase: path.resolve(__dirname, './src/index.js'),
+    watchContentBase: true,
   },
 };
