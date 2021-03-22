@@ -8,7 +8,7 @@ const getFullRequest = async (type, e, id) => {
     formData.append('id', id);
 
     const response = await fetch(
-      `https://ahj-http-mishka.herokuapp.com/?method=${formData.get('method')}&id=${formData.get('id')}`,
+      `http://localhost:7070/?method=${formData.get('method')}&id=${formData.get('id')}`,
       {
         method: type,
         headers: {

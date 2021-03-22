@@ -1,6 +1,7 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-debugger */
 /* eslint-disable no-unused-vars */
+import editRequest from './requests/editRequest';
 import deleteRequest from './requests/deleteRequest';
 import getRequest from './requests/getTicketsRequest';
 import postRequest from './requests/postRequest';
@@ -27,8 +28,12 @@ export default class AppController {
     document.addEventListener('DOMContentLoaded', async (e) => {
       this.dataTickets = await renderResponse(getRequest, 'GET', e);
       for (const ticket of this.dataTickets) {
-        this.tickets.innerHTML
-        += this.layout.renderTicket(ticket.id, ticket.status, ticket.name, ticket.created);
+        this.tickets.innerHTML += this.layout.renderTicket(
+          ticket.id,
+          ticket.status,
+          ticket.name,
+          ticket.created,
+        );
       }
       document.querySelectorAll('.ticket').forEach((ticket) => {
         ticket.addEventListener('click', (event) => this.selectListener(event));
@@ -47,7 +52,7 @@ export default class AppController {
   }
 
   showListener(e) {
-    if (!e.target.classList.contains('ticket__shortname')) return;
+    if (!e.target.classList.contains('ticket__shorttext')) return;
     let { id } = e.target.closest('.ticket');
     id = id.match(/\d/)[0];
 
@@ -60,19 +65,28 @@ export default class AppController {
     }
 
     e.target.classList.toggle('ticket__flag_active');
-    e.target.textContent = e.target.classList.contains('ticket__flag_active') ? '✓' : '';
+    e.target.textContent = e.target.classList.contains('ticket__flag_active')
+      ? '✓'
+      : '';
   }
 
   editListener(e) {
-    if (e.target.dataset.type !== 'edit' || document.querySelector('.menu') !== null) {
+    if (
+      e.target.dataset.type !== 'edit' || document.querySelector('.menu') !== null
+    ) {
       return;
     }
 
-    this.showEditMenu();
+    let { id } = e.target.closest('.ticket');
+    id = id.match(/\d/)[0];
+
+    this.showEditMenu(e, id);
   }
 
   deleteListener(e) {
-    if (e.target.dataset.type !== 'delete' || document.querySelector('.menu') !== null) {
+    if (
+      e.target.dataset.type !== 'delete' || document.querySelector('.menu') !== null
+    ) {
       return;
     }
 
@@ -86,22 +100,36 @@ export default class AppController {
     document.body.insertAdjacentHTML('afterbegin', this.layout.menu);
     this.menu = document.querySelector('.menu');
     this.menu.querySelector('.menu__title').textContent = 'Добавить тикет';
-    this.menu.querySelector('[data-action=cancel]').addEventListener('click', this.closeMenu);
-    this.menu.querySelector('[data-action=ok]').addEventListener('click', (e) => this.submitForm(e));
+    this.menu
+      .querySelector('[data-action=cancel]')
+      .addEventListener('click', this.closeMenu);
+    this.menu
+      .querySelector('[data-action=ok]')
+      .addEventListener('click', (e) => this.submitForm(e));
   }
 
-  showEditMenu() {
+  showEditMenu(e, id) {
     document.body.insertAdjacentHTML('afterbegin', this.layout.menu);
     this.menu = document.querySelector('.menu');
+    this.form = this.menu.querySelector('form');
     this.menu.querySelector('.menu__title').textContent = 'Изменить тикет';
-    this.menu.querySelector('[data-action=cancel]').addEventListener('click', this.closeMenu);
+    this.menu
+      .querySelector('[data-action=cancel]')
+      .addEventListener('click', this.closeMenu);
+    this.menu
+      .querySelector('[data-action=ok]')
+      .addEventListener('click', () => this.editTicket(e, id));
   }
 
   showDeleteMenu(e, id) {
     document.body.insertAdjacentHTML('afterbegin', this.layout.deleteMenu);
     this.menu = document.querySelector('.menu');
-    this.menu.querySelector('[data-action=cancel]').addEventListener('click', this.closeMenu);
-    this.menu.querySelector('[data-action=ok]').addEventListener('click', () => this.deleteTicket(e, id));
+    this.menu
+      .querySelector('[data-action=cancel]')
+      .addEventListener('click', this.closeMenu);
+    this.menu
+      .querySelector('[data-action=ok]')
+      .addEventListener('click', () => this.deleteTicket(e, id));
   }
 
   async submitForm(e) {
@@ -111,8 +139,12 @@ export default class AppController {
     const {
       id, name, status, created,
     } = data;
-    this.tickets.innerHTML
-      += this.layout.renderTicket(id, status, name, created);
+    this.tickets.innerHTML += this.layout.renderTicket(
+      id,
+      status,
+      name,
+      created,
+    );
     this.closeMenu();
     document.querySelectorAll('.ticket').forEach((ticket) => {
       ticket.addEventListener('click', (event) => this.selectListener(event));
@@ -122,9 +154,57 @@ export default class AppController {
     });
   }
 
+  async editTicket(e, id) {
+    const shorttext = this.form.querySelector('.form__shorttext').value;
+    const fulltext = this.form.querySelector('.form__fulltext').value;
+    const obj = {
+      id,
+      shorttext,
+      fulltext,
+    };
+    await renderResponse(editRequest, 'GET', e, obj);
+    while (this.container.querySelector('.ticket') !== null) {
+      this.container.querySelector('.ticket').remove();
+    }
+    this.dataTickets = await renderResponse(getRequest, 'GET', e);
+    for (const ticket of this.dataTickets) {
+      this.tickets.innerHTML += this.layout.renderTicket(
+        ticket.id,
+        ticket.status,
+        ticket.name,
+        ticket.created,
+      );
+    }
+    document.querySelectorAll('.ticket').forEach((ticket) => {
+      ticket.addEventListener('click', (event) => this.selectListener(event));
+      ticket.addEventListener('click', (event) => this.editListener(event));
+      ticket.addEventListener('click', (event) => this.deleteListener(event));
+      ticket.addEventListener('click', (event) => this.showListener(event));
+    });
+    this.closeMenu();
+  }
+
   async deleteTicket(e, id) {
-    const data = await renderResponse(deleteRequest, 'GET', e, id);
-    document.getElementById(`ticket_${data.id}`).remove();
+    await renderResponse(deleteRequest, 'GET', e, id);
+    while (this.container.querySelector('.ticket') !== null) {
+      this.container.querySelector('.ticket').remove();
+    }
+    this.dataTickets = await renderResponse(getRequest, 'GET', e);
+    for (const ticket of this.dataTickets) {
+      this.tickets.innerHTML += this.layout.renderTicket(
+        ticket.id,
+        ticket.status,
+        ticket.name,
+        ticket.created,
+      );
+    }
+    document.querySelectorAll('.ticket').forEach((ticket) => {
+      ticket.addEventListener('click', (event) => this.selectListener(event));
+      ticket.addEventListener('click', (event) => this.editListener(event));
+      ticket.addEventListener('click', (event) => this.deleteListener(event));
+      ticket.addEventListener('click', (event) => this.showListener(event));
+    });
+    this.closeMenu();
     this.closeMenu();
   }
 
@@ -138,7 +218,8 @@ export default class AppController {
     }
     const data = await renderResponse(getFullRequest, 'GET', e, id);
     const { description } = data;
-    document.getElementById(`ticket_${data.id}`)
+    document
+      .getElementById(`ticket_${data.id}`)
       .insertAdjacentHTML('beforeend', this.layout.renderFullname(description));
   }
 

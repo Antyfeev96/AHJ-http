@@ -44,13 +44,13 @@ export default class Layout {
     `;
   }
 
-  renderTicket(id, status, shortname, timestamp) {
+  renderTicket(id, status, shorttext, timestamp) {
     this.flag = status === true ? 'ticket__flag_active' : '';
     this.mark = status === true ? '✓' : '';
     return (`
     <div class="ticket" id="ticket_${id}">
         <div class="ticket__flag ${this.flag}" data-type="select">${this.mark}</div>
-        <div class="ticket__shortname">${shortname}</div>
+        <div class="ticket__shorttext">${shorttext}</div>
         <div class="ticket__timestamp">${timestamp}</div>
         <div class="ticket__buttons">
             <div class="ticket__flag" data-type="edit">🖉</div>
