@@ -15,7 +15,7 @@ const postRequest = async (type, e, form) => {
     formData.set('method', 'createTicket');
 
     const response = await fetch(
-      `http://localhost:7070/?method=${formData.get('method')}&${queryString}`,
+      `https://ahj-http-mishka.herokuapp.com/?method=${formData.get('method')}&${queryString}`,
       {
         method: type,
         headers: {
