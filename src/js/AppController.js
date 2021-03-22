@@ -205,7 +205,6 @@ export default class AppController {
       ticket.addEventListener('click', (event) => this.showListener(event));
     });
     this.closeMenu();
-    this.closeMenu();
   }
 
   async showFullTicket(e, id) {
